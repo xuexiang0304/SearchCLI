@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entity\" />
+    <Folder Include="DomainLayer\" />
+    <Folder Include="IDomainLayer\" />
+    <Folder Include="DataLayer\" />
+    <Folder Include="IDataLayer\" />
+    <Folder Include="IServiceLayer\" />
+    <Folder Include="ServiceLayer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="IDataLayer\Mapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+</Project>
