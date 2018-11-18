@@ -13,6 +13,7 @@
     <Folder Include="IDataLayer\" />
     <Folder Include="IServiceLayer\" />
     <Folder Include="ServiceLayer\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="IDataLayer\Mapper.cs" />
