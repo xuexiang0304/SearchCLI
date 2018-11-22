@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RuntimeIdentifiers>win10-x64;osx.10.11-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,12 +14,19 @@
     <Folder Include="IDataLayer\" />
     <Folder Include="IServiceLayer\" />
     <Folder Include="ServiceLayer\" />
-    <Folder Include="Data\" />
+    <Folder Include="bin\Debug\netcoreapp2.1\osx.10.11-x64\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="IDataLayer\Mapper.cs" />
+    <Compile Remove="DomainLayer\PrintOrganisationResultDL.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.5.3" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.IO.FileSystem">
+      <HintPath>..\..\..\..\..\usr\local\share\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.1.0\ref\netcoreapp2.1\System.IO.FileSystem.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

@@ -6,6 +6,6 @@ namespace SearchCLI.IDataLayer
 {
     public interface IOrganizationMapper
     {
-        List<Organization> Load();
+        List<Organization> Load(string filePath);
     }
 }

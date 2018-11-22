@@ -9,8 +9,12 @@ namespace SearchCLI.DataLayer
 {
     public class UserMapper: IUserMapper
     {
-        public List<User> Load(){
-            string filePath = "../Data/users.json";
+        /// <summary>
+        /// Load the json string from the json file and convert to a list of Users.
+        /// </summary>
+        /// <returns>A list of Users.</returns>
+        /// <param name="filePath">File path.</param>
+        public List<User> Load(string filePath){
             List<User> users = new List<User>();
             using(StreamReader r = new StreamReader(filePath)){
                 var json = r.ReadToEnd();

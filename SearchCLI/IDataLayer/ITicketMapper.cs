@@ -6,6 +6,6 @@ namespace SearchCLI.IDataLayer
 {
     public interface ITicketMapper
     {
-        List<Ticket> Load();
+        List<Ticket> Load(string filePath);
     }
 }

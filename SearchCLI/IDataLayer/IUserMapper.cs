@@ -6,6 +6,6 @@ namespace SearchCLI.IDataLayer
 {
     public interface IUserMapper
     {
-        List<User> Load();
+        List<User> Load(string filePath);
     }
 }
