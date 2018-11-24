@@ -39,8 +39,7 @@ namespace SearchCLI.ServiceLayer
         }
 
         public SearchServiceForTicket(string userFilePath, string ticketFilePath, string organizationFilePath,
-                                      IUserMapper userMapper, ITicketMapper ticketMapper, IOrganizationMapper organizationMapper,
-                                      IUserDL userDL, ITicketDL ticketDL, IOrganizationDL organizationDL,
+                                      IUserMapper userMapper, IOrganizationMapper organizationMapper,
                                       ISearchTicketWithRelatedEntities searchTicketWithRelatedEntities,
                                       IPrintDL printDL)
         {
@@ -48,11 +47,7 @@ namespace SearchCLI.ServiceLayer
             _ticketFilePath = ticketFilePath;
             _organizationFilePath = organizationFilePath;
             _userMapper = userMapper;
-            _ticketMapper = ticketMapper;
             _organizationMapper = organizationMapper;
-            _userDL = userDL;
-            _ticketDL = ticketDL;
-            _organizationDL = organizationDL;
             _searchTicketWithRelatedEntities = searchTicketWithRelatedEntities;
             _printDL = printDL;
         }

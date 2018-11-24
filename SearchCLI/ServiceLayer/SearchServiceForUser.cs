@@ -29,7 +29,6 @@ namespace SearchCLI.ServiceLayer
             _userFilePath = userFilePath;
             _ticketFilePath = ticketFilePath;
             _organizationFilePath = organizationFilePath;
-            _userMapper = new UserMapper();
             _ticketMapper = new TicketMapper();
             _organizationMapper = new OrganizationMapper();
             _userDL = new UserDL(_userFilePath, _userMapper);
@@ -40,20 +39,15 @@ namespace SearchCLI.ServiceLayer
         }
 
         public SearchServiceForUser(string userFilePath, string ticketFilePath, string organizationFilePath,
-                                    IUserMapper userMapper, ITicketMapper ticketMapper, IOrganizationMapper organizationMapper,
-                                    IUserDL userDL, ITicketDL ticketDL, IOrganizationDL organizationDL,
+                                    ITicketMapper ticketMapper, IOrganizationMapper organizationMapper,
                                     ISearchUserWithRelatedEntities searchUserWithRelatedEntities,
                                     IPrintDL printDL)
         {
             _userFilePath = userFilePath;
             _ticketFilePath = ticketFilePath;
             _organizationFilePath = organizationFilePath;
-            _userMapper = userMapper;
             _ticketMapper = ticketMapper;
             _organizationMapper = organizationMapper;
-            _userDL = userDL;
-            _ticketDL = ticketDL;
-            _organizationDL = organizationDL;
             _searchUserWithRelatedEntities = searchUserWithRelatedEntities;
             _printDL = printDL;
         }

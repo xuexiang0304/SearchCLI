@@ -45,7 +45,6 @@ namespace SearchCLI.ServiceLayer
 
         public SearchService(string userFilePath, string ticketFilePath, string organizationFilePath,
                              IUserMapper userMapper, ITicketMapper ticketMapper, IOrganizationMapper organizationMapper,
-                             IUserDL userDL, ITicketDL ticketDL, IOrganizationDL organizationDL,
                              ISearchUserWithRelatedEntities searchUserWithRelatedEntities,
                              ISearchTicketWithRelatedEntities searchTicketWithRelatedEntities,
                              ISearchOrganizationWithRelatedEnties searchOrganizationWithRelatedEnties,
@@ -57,9 +56,6 @@ namespace SearchCLI.ServiceLayer
             _userMapper = userMapper;
             _ticketMapper = ticketMapper;
             _organizationMapper = organizationMapper;
-            _userDL = userDL;
-            _ticketDL = ticketDL;
-            _organizationDL = organizationDL;
             _searchUserWithRelatedEntities = searchUserWithRelatedEntities;
             _searchTicketWithRelatedEntities = searchTicketWithRelatedEntities;
             _searchOrganizationWithRelatedEnties = searchOrganizationWithRelatedEnties;
@@ -73,22 +69,6 @@ namespace SearchCLI.ServiceLayer
         /// </summary>
         /// <param name="searchStr">Search string.</param>
         public void WildcardSearch(string searchStr){
-            //string path = Directory.GetCurrentDirectory();
-            //string userFilePath = path + @"/Data/users.json";
-            //string ticketFilePath = path + @"/Data/tickets.json";
-            //string organizationFilePath = path + @"/Data/organizations.json";
-
-            //IUserMapper userMapper = new UserMapper();
-            //ITicketMapper ticketMapper = new TicketMapper();
-            //IOrganizationMapper organizationMapper = new OrganizationMapper();
-            //IUserDL userDL = new UserDL(userFilePath, userMapper);
-            //ITicketDL ticketDL = new TicketDL(ticketFilePath, ticketMapper);
-            //IOrganizationDL organizationDL = new OrganizationDL(organizationFilePath, organizationMapper);
-            //ISearchUserWithRelatedEntities searchUserWithRealtedEntities = new SearchUserWithRelatedEntities(userDL);
-            //ISearchTicketWithRelatedEntities searchTicketWithRelatedEntities = new SearchTicketWIthRelatedEntities(ticketDL);
-            //ISearchOrganizationWithRelatedEnties searchOrganizationWithRelatedEnties = new SearchOrganizationWithRelatedEntities(organizationDL);
-            //IPrintDL printDL = new PrintDL(userDL, ticketDL, organizationDL);
-
             List<User> users = _userMapper.Load(_userFilePath);
             List<Organization> organizations = _organizationMapper.Load(_organizationFilePath);
             List<Ticket> tickets = _ticketMapper.Load(_ticketFilePath);
