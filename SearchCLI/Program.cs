@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using SearchCLI.IServiceLayer;
 using SearchCLI.ServiceLayer;
 
@@ -8,10 +11,13 @@ namespace SearchCLI
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Hello World!");
-            //ISearchService service = new SearchService();
+            string basePath = ".";
+            if (!Debugger.IsAttached)
+                basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string userFilePath = basePath + @"/Data/users.json";
+            string ticketFilePath = basePath + @"/Data/tickets.json";
+            string organizationFilePath = basePath + @"/Data/organizations.json";
 
-            //service.WildcardSearch("Artisan");
             try
             {
                 while (true)
@@ -30,23 +36,23 @@ namespace SearchCLI
                     {
                         Console.WriteLine("Please enter your search value");
                         string searchStr = Console.ReadLine();
-                        ISearchService searchService = new SearchService();
+                        ISearchService searchService = new SearchService(userFilePath, ticketFilePath, organizationFilePath);
                         searchService.WildcardSearch(searchStr);
                     }
                     else if (line == "2"){
                         Console.WriteLine("Please enter your search value");
                         string searchStr = Console.ReadLine();
-                        ISearchService searchService = new SearchServiceForUser();
+                        ISearchService searchService = new SearchServiceForUser(userFilePath, ticketFilePath, organizationFilePath);
                         searchService.WildcardSearch(searchStr);
                     }else if(line == "3"){
                         Console.WriteLine("Please enter your search value");
                         string searchStr = Console.ReadLine();
-                        ISearchService searchService = new SearchServiceForOrganization();
+                        ISearchService searchService = new SearchServiceForOrganization(userFilePath, ticketFilePath, organizationFilePath);
                         searchService.WildcardSearch(searchStr);
                     }else if(line == "4"){
                         Console.WriteLine("Please enter your search value");
                         string searchStr = Console.ReadLine();
-                        ISearchService searchService = new SearchServiceForTicket();
+                        ISearchService searchService = new SearchServiceForTicket(userFilePath, ticketFilePath, organizationFilePath);
                         searchService.WildcardSearch(searchStr);
                     }else if(line == "5"){
                         break;

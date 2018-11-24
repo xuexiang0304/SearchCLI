@@ -45,9 +45,11 @@ namespace SearchCLI.DomainLayer
         /// </summary>
         /// <param name="organization">Organization.</param>
         public void PrintOrganization(Organization organization){
-            Console.WriteLine();
-            Console.WriteLine("The information of organization ({0}) is shown below:", organization.name);
-            Console.WriteLine(@"id:{0},
+            if (organization != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine("The information of organization ({0}) is shown below:", organization.name);
+                Console.WriteLine(@"id:{0},
 url:{1},
 external_id:{2},
 name:{3},
@@ -56,11 +58,12 @@ created_at:{5},
 details:{6},
 shared_tickets:{7},
 tags:[{8}]",
-                              organization._id, organization.url, organization.external_id, organization.name,
-                              organization.domain_names == null ? "" : string.Join(",", organization.domain_names.ToArray()),
-                              organization.created_at, organization.details, organization.details,
-                              organization.tags == null ? "" : string.Join(",", organization.tags.ToArray()));
-            Console.WriteLine();
+                                  organization._id, organization.url, organization.external_id, organization.name,
+                                  organization.domain_names == null ? "" : string.Join(",", organization.domain_names.ToArray()),
+                                  organization.created_at, organization.details, organization.details,
+                                  organization.tags == null ? "" : string.Join(",", organization.tags.ToArray()));
+                Console.WriteLine();
+            }
         }
     }
 }

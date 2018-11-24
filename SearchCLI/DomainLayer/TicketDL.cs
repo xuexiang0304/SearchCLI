@@ -53,9 +53,11 @@ namespace SearchCLI.DomainLayer
         /// </summary>
         /// <param name="ticket">Ticket.</param>
         public void PrintTicket(Ticket ticket){
-            Console.WriteLine();
-            Console.WriteLine("The information of ticket ({0}) is shown below:", ticket._id);
-            Console.WriteLine(@"id:{0},
+            if (ticket != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine("The information of ticket ({0}) is shown below:", ticket._id);
+                Console.WriteLine(@"id:{0},
 external_id:{1},
 created_at:{3}.
 type:{4},
@@ -70,11 +72,12 @@ tags:{12},
 has_incidents:{13},
 due_at:{14},
 via:{15}",
-                              ticket._id, ticket.url, ticket.external_id, ticket.created_at,
-                              ticket.type, ticket.subject, ticket.description, ticket.priority,
-                              ticket.status, ticket.submitter_id, ticket.assignee_id, ticket.organization_id,
-                              ticket.tags == null ? "" : string.Join(",", ticket.tags.ToArray()), ticket.has_incidents, ticket.due_at, ticket.via);
-            Console.WriteLine();
+                                  ticket._id, ticket.url, ticket.external_id, ticket.created_at,
+                                  ticket.type, ticket.subject, ticket.description, ticket.priority,
+                                  ticket.status, ticket.submitter_id, ticket.assignee_id, ticket.organization_id,
+                                  ticket.tags == null ? "" : string.Join(",", ticket.tags.ToArray()), ticket.has_incidents, ticket.due_at, ticket.via);
+                Console.WriteLine();
+            }
         }
     }
 }

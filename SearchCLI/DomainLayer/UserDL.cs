@@ -54,9 +54,11 @@ namespace SearchCLI.DomainLayer
         /// <param name="user">User Object</param>
         public void PrintUser(User user)
         {
-            Console.WriteLine();
-            Console.WriteLine("The information of user {0}: ", user.name);
-            Console.WriteLine(@"id:{0}, 
+            if (user != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine("The information of user {0}: ", user.name);
+                Console.WriteLine(@"id:{0}, 
 url:{1}, 
 external_id:{2}, 
 name:{3}, 
@@ -75,12 +77,13 @@ organization_id:{15},
 tags:[{16}], 
 suspended:{17}, 
 role:{18} ",
-          user._id, user.url, user.external_id, user.name, user.alias, user.created_at,
-          user.active, user.verified, user.shared, user.locale, user.timezone,
-          user.last_login_at, user.email, user.phone, user.signature, user.organization_id,
-          user.tags == null ? "" : string.Join(",", user.tags.ToArray()), user.suspended, user.role
-                             );
-            Console.WriteLine();
+              user._id, user.url, user.external_id, user.name, user.alias, user.created_at,
+              user.active, user.verified, user.shared, user.locale, user.timezone,
+              user.last_login_at, user.email, user.phone, user.signature, user.organization_id,
+              user.tags == null ? "" : string.Join(",", user.tags.ToArray()), user.suspended, user.role
+                                 );
+                Console.WriteLine();
+            }
         }
     } 
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using FluentAssertions;
 using Moq;
 using SearchCLI.DomainLayer;
@@ -13,9 +14,15 @@ namespace SearchCLI.Tests
     public class OrganizationDLTest
     {
         readonly List<Organization> _mockOrganizations;
+        readonly StreamWriter _standardOut;
         public OrganizationDLTest()
         {
             _mockOrganizations = MockOrganizations();
+            _standardOut = new StreamWriter(Console.OpenStandardOutput())
+            {
+                AutoFlush = true
+            };
+            Console.SetOut(_standardOut);
         }
 
         private List<Organization> MockOrganizations(){
@@ -181,6 +188,75 @@ namespace SearchCLI.Tests
             };
 
             organizationResults.Should().BeEquivalentTo(expectOrganizations);
+        }
+
+        [Fact]
+        public void ShouldNotPrintWithoutValue()
+        {
+            Organization organization_input = null;
+            var mockOrganizationMapper = new Mock<IOrganizationMapper>();
+            mockOrganizationMapper.Setup(o => o.Load(It.IsAny<string>())).Returns(It.IsAny<List<Organization>>);
+            IOrganizationDL organizationDL = new OrganizationDL(It.IsAny<string>(), mockOrganizationMapper.Object);
+            using (StringWriter sw = new StringWriter())
+            {
+                _standardOut.Flush();
+                Console.SetOut(sw);
+                organizationDL.PrintOrganization(organization_input);
+
+                Assert.Empty(sw.ToString());
+            }
+
+        }
+
+        [Fact]
+        public void ShouldPrintAUser()
+        {
+            Organization organization = new Organization(
+                101,
+                "http://initech.zendesk.com/api/v2/organizations/101.json",
+                "9270ed79-35eb-4a38-a46f-35725197ea8d",
+                "Enthaze",
+                new List<string>(new string[] {
+                "kage.com",
+                "ecratic.com",
+                "endipin.com",
+                "zentix.com"
+                }),
+                "2016-05-21T11:10:28 -10:00",
+                "MegaCorp",
+                false,
+                new List<string>(new string[] {
+                    "Fulton",
+                    "West",
+                    "Rodriguez",
+                    "Farley"
+                })
+            );
+            var mockOrganizationMapper = new Mock<IOrganizationMapper>();
+            mockOrganizationMapper.Setup(o => o.Load(It.IsAny<string>())).Returns(It.IsAny<List<Organization>>);
+            IOrganizationDL organizationDL = new OrganizationDL(It.IsAny<string>(), mockOrganizationMapper.Object);
+
+            using (StringWriter sw = new StringWriter())
+            {
+                _standardOut.Flush();
+                Console.SetOut(sw);
+                organizationDL.PrintOrganization(organization);
+                string expected = string.Format(@"The information of organization ({0}) is shown below:{1}", organization.name, Environment.NewLine) +
+                    string.Format(@"id:{0},
+url:{1},
+external_id:{2},
+name:{3},
+domain_names:[{4}],
+created_at:{5},
+details:{6},
+shared_tickets:{7},
+tags:[{8}]",
+                                  organization._id, organization.url, organization.external_id, organization.name,
+                                  organization.domain_names == null ? "" : string.Join(",", organization.domain_names.ToArray()),
+                                  organization.created_at, organization.details, organization.details,
+                                  organization.tags == null ? "" : string.Join(",", organization.tags.ToArray()));
+                Assert.Contains(expected, sw.ToString());
+            }
         }
     }
 }

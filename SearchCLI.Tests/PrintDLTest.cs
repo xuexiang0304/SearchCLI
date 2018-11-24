@@ -11,15 +11,9 @@ namespace SearchCLI.Tests
     public class PrintDLTest
     {
         readonly List<UserResult> _mockUserResults;
-        readonly IUserDL _userDL;
-        readonly ITicketDL _ticketDL;
-        readonly IOrganizationDL _organizationDL;
-        public PrintDLTest(IUserDL userDL, ITicketDL ticketDL, IOrganizationDL organizationDL)
+        public PrintDLTest()
         {
             _mockUserResults = GetMockUserResults();
-            _userDL = userDL;
-            _ticketDL = ticketDL;
-            _organizationDL = organizationDL;
         }
 
         private List<UserResult> GetMockUserResults(){
@@ -159,6 +153,7 @@ namespace SearchCLI.Tests
             mockUserDL.Setup(user => user.PrintUser(It.IsAny<User>())).Verifiable();
             var mockOrganization = new Mock<IOrganizationDL>();
             mockOrganization.Setup(o => o.PrintOrganization(It.IsAny<Organization>())).Verifiable();
+
             IPrintDL printDl = new PrintDL(mockUserDL.Object, mockTicketDL.Object, mockOrganization.Object);
 
             printDl.PrintUserResult(new List<UserResult>());
@@ -168,7 +163,7 @@ namespace SearchCLI.Tests
         }
 
         [Fact]
-        public void ShouldNotCallPrintUserWithResult()
+        public void ShouldCallPrintUserOnceWithOneResult()
         {
             var mockTicketDL = new Mock<ITicketDL>();
             mockTicketDL.Setup(ticket => ticket.PrintTicket(It.IsAny<Ticket>())).Verifiable();
@@ -181,6 +176,40 @@ namespace SearchCLI.Tests
             printDl.PrintUserResult(_mockUserResults);
 
             mockUserDL.Verify(u => u.PrintUser(It.IsAny<User>()), Times.Once);
+
+        }
+
+        [Fact]
+        public void ShouldCallPrintOrganizationOnceTimesWithProvidedResult()
+        {
+            var mockTicketDL = new Mock<ITicketDL>();
+            mockTicketDL.Setup(ticket => ticket.PrintTicket(It.IsAny<Ticket>())).Verifiable();
+            var mockUserDL = new Mock<IUserDL>();
+            mockUserDL.Setup(user => user.PrintUser(It.IsAny<User>())).Verifiable();
+            var mockOrganization = new Mock<IOrganizationDL>();
+            mockOrganization.Setup(o => o.PrintOrganization(It.IsAny<Organization>())).Verifiable();
+            IPrintDL printDl = new PrintDL(mockUserDL.Object, mockTicketDL.Object, mockOrganization.Object);
+
+            printDl.PrintUserResult(_mockUserResults);
+
+            mockOrganization.Verify(o => o.PrintOrganization(It.IsAny<Organization>()), Times.Once);
+
+        }
+
+        [Fact]
+        public void ShouldCallPrintTicketThreeTimesWithProvidedResult()
+        {
+            var mockTicketDL = new Mock<ITicketDL>();
+            mockTicketDL.Setup(ticket => ticket.PrintTicket(It.IsAny<Ticket>())).Verifiable();
+            var mockUserDL = new Mock<IUserDL>();
+            mockUserDL.Setup(user => user.PrintUser(It.IsAny<User>())).Verifiable();
+            var mockOrganization = new Mock<IOrganizationDL>();
+            mockOrganization.Setup(o => o.PrintOrganization(It.IsAny<Organization>())).Verifiable();
+            IPrintDL printDl = new PrintDL(mockUserDL.Object, mockTicketDL.Object, mockOrganization.Object);
+
+            printDl.PrintUserResult(_mockUserResults);
+
+            mockTicketDL.Verify(ticket => ticket.PrintTicket(It.IsAny<Ticket>()), Times.Exactly(3));
 
         }
     }
