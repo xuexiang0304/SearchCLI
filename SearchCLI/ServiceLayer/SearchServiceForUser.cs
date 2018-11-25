@@ -30,6 +30,7 @@ namespace SearchCLI.ServiceLayer
             _ticketFilePath = ticketFilePath;
             _organizationFilePath = organizationFilePath;
             _ticketMapper = new TicketMapper();
+            _userMapper = new UserMapper();
             _organizationMapper = new OrganizationMapper();
             _userDL = new UserDL(_userFilePath, _userMapper);
             _ticketDL = new TicketDL(_ticketFilePath, _ticketMapper);
