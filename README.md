@@ -8,7 +8,46 @@ The user's id is linked with ticket's submitter_id and assignee_id.
 The organization's id linked with ticket's organization_id and user's organization_id.
 
 2. Search constraints
-The search is fine search which means it only matches the whole world. For example, if we search "am", it will not match "ample". Also, the search is case sensitive. For example, if we search "new york", "New York" will NOT be matched.
+The search is fine search which means it only matches the whole world. For example, if search "am", it will not match "ample"; if search "2015", it will not match "2015-10-10". Also, the search is case sensitive. For example, if we search "new york", "New York" will NOT be matched.
+
+# How to run SearchCLI
+Please choose from the following instructions.
+### 1. Run the application by third-party tool -- .NET Core CLI 
+- Install [.NET Core CLI](https://www.microsoft.com/net/learn/dotnet/hello-world-tutorial#install)  on your local machine
+- Open a termial/command prompt 
+- Navigate to the Release/netcoreapp2.1
+- Run command `dotnet SearchCLI.dll`
+- Following the instruction display on the terminal/command prompt
+
+### 2. Run the self-contained application for Max OS
+- Navigate to the Release/netcoreapp2.1/osx.10.11-x64
+- Double click on the executable file 
+- Following the instruction display on the terminal/command prompt
+
+### 3. Run the self-contained application for Windows 10
+- Navigate to the Release/netcoreapp2.1/win10-x64
+- Double click on the executable file 
+- Following the instruction display on the command prompt
+
+### 4. Run in debug mode with IDE
+- Install Visual studio
+- Build and run the project
+
+# Explaination of the instruction displaying on the terminal
+After running the appliction successfully, you should be able to see a piece of intruction shown below:
+```
+Please select from the following options by type the number:
+1. Search through Users, Tickets and Orgnizations and display related entities.
+2. Search through Users and display related entities.
+3. Search through Organizations and display related entities
+4. Search through Tickets and display related entities
+5. Exit
+```
+Enter the number of the option you want to choose, then type the `return`/`enter` button. Then you will see another line of instruction which asking you to type in the search value.
+```
+Please enter your search value
+```
+Type in the search value and then the `return`/`enter` button. You will see the search result. The search result of each option will be clarified in the Features section.
 
 # Features
 ### 1. Search through multiple data resource (users.json, tickets.json, organization) and return result at once.
@@ -19,7 +58,9 @@ There are three groups of results will be returned.
 
 ### 2. Search through users first and return the result and the related tickets and organizations for each user in the result.
 There is only one group of result will be returned. See the example for search "admin" below, the result is showing a user information in the result:
+```
 There are 24 users show in the result
+
 The details of user Francisca Rasmussen is shown below:
 
 The information of user Francisca Rasmussen:
@@ -110,10 +151,10 @@ created_at:2016-03-30T08:35:27 -11:00.
 type:task,
 subject:A Problem in Malawi,
 ...
-
+```
 ### 3. Search through tickets first and return the result and the related users and organizations for each user in the result.
 There is only one group of result will be returned. See the example for search "New York" below, the result is showing a user information in the result:
-
+```
 The information of ticket (5f7a19db-432e-4d6f-8c29-ba121aed5d68) is shown below:
 id:5f7a19db-432e-4d6f-8c29-ba121aed5d68,
 external_id:http://initech.zendesk.com/api/v2/tickets/5f7a19db-432e-4d6f-8c29-ba121aed5d68.json,
@@ -191,10 +232,10 @@ shared_tickets:MegaCorp,
 tags:[Fisher,Forbes,Koch,Lester]
 
 ----------------------------------------------------------------------------------
-
+```
 ### 4. Search through organizations first and return the result and the related users and tickets for each user in the result.
 There is only one group of result will be returned. See the example for search "kage.com" below, the result is showing a user information in the result:
-
+```
 There are 1 organizations show in the result
 
 The information of organization (Enthaze) is shown below:
@@ -292,10 +333,10 @@ The information of ticket (27c447d9-cfda-4415-9a72-d5aa12942cf1) is shown below:
 id:27c447d9-cfda-4415-9a72-d5aa12942cf1,
 external_id:http://initech.zendesk.com/api/v2/tickets/27c447d9-cfda-4415-9a72-d5aa12942cf1.json,
 ...
-
+```
 # Architecture Design
 ## Design Goal
-### 1.Qualities
+### 1 Quality
 The main design goals for this system are:
 #### Usability
 End users shall be able to use this system easily without extensive training.
@@ -311,14 +352,14 @@ The components of this system shall be able to modified without huge cost.
 5. Interface segregation principle — A client should never be forced to implement an interface that it doesn't use or clients shouldn't be forced to depend on methods they do not use.
 6. Dependency Inversion Principle — Entities must depend on abstractions not on concretions. It states that the high level module must not depend on the low level module, but they should depend on abstractions.
 ## High-Level Design
-To achieve the goal of 'low coupling, high cohesion; open to extension, close to modification'. Layering Design and the design pattern for each layer have been applied.The application contains 5 main layers.
+To achieve the goal of 'low coupling, high cohesion; open to extension, close to modification'. Layering Design and the design pattern for each layer have been applied. The application contains 5 main layers.
 #### 1. Presentation layer
 Presentation layer is the entry point in this application which is in charge of interacting with users. Also, it interacts with the Service layer according to users' reaction. This layer plays an important role of separating the user interface with domain logics.
 #### 2. Service layer
 Service layer interacts with the Presentation layer and Domain Logic layer which helps preventing exposing domain logics to the Presentation layer. Also, this layer can help sharing logic with multiple user interfaces without exposing domain logic details. Service layer gives the system more flexibilities to reuse domain logics.
 In this search CLI, the system provides 4 services through this service layer without exposing domain logic details to the presentation layer.
 #### 3. Domain Logic layer
-The domain logic layer aims to implement the business rules. For example, all the search processes happen in this layer. Domain model pattern has been implemented which provides high extensibility for the system. Additional modules or changes can be easily added into the system if needed in the future. Besides, the domain logic of the system is divided into different modules according to different models or related operations, relevant functions are grouped into one module, which performs high cohesion and low coupling between modules.
+The domain logic layer aims to implement the business rules. For example, all the search processes happen in this layer. Domain model pattern has been chosen and implemented which provides high extensibility for the system. Additional modules or changes can be easily added into the system if needed in the future. Besides, the domain logic of the system is divided into different modules according to different models or related operations, relevant functions are grouped into one module, which performs high cohesion and low coupling between modules.
 #### 4. Entity
 Entity layers is the layer to define all entities. There are 6 entities involved in the current system, including User, UserResult, Ticket, TicketResult, Organization, OrganizationResult. Those entities are used cross the system.
 #### 5. Data Layer
